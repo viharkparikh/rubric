@@ -1,0 +1,73 @@
+name = "Open source presence"
+description = """
+A deliberately unrelated framework, included to make the point that the engine
+does not know or care what it is scoring. Nothing about AI appears here. If you
+can express your evidence as a number, you can write a rubric for it.
+"""
+
+[[dimension]]
+id = "visible"
+name = "Visible work"
+weight = 1.0
+
+  [[dimension.level]]
+  score = 0
+  label = "Private"
+  next = "One public repo. It does not have to be good."
+
+  [[dimension.level]]
+  score = 1
+  label = "Something is public"
+  requires = { public_repos = 1 }
+  next = "Add a README that says what broke, not just what it does."
+
+  [[dimension.level]]
+  score = 2
+  label = "Legible to a stranger"
+  requires = { public_repos = 2, repos_with_readme = 2 }
+  next = "Make one of them installable in under a minute."
+
+  [[dimension.level]]
+  score = 3
+  label = "Runnable by a stranger"
+  requires = { public_repos = 3, repos_with_readme = 3, repos_with_quickstart = 1 }
+
+[[dimension]]
+id = "maintained"
+name = "Still alive"
+weight = 1.0
+
+  [[dimension.level]]
+  score = 0
+  label = "Abandoned"
+
+  [[dimension.level]]
+  score = 1
+  label = "Touched this quarter"
+  requires = { repos_commits = 10 }
+
+  [[dimension.level]]
+  score = 2
+  label = "Actively worked on"
+  requires = { repos_commits = 100 }
+  next = "Volume is not maintenance. Closing an issue someone else opened counts for more."
+
+[[dimension]]
+id = "outward"
+name = "Outward facing"
+weight = 0.5
+
+  [[dimension.level]]
+  score = 0
+  label = "None"
+  next = "Write one post about a thing that did not work."
+
+  [[dimension.level]]
+  score = 1
+  label = "Occasional"
+  requires = { posts = 1 }
+
+  [[dimension.level]]
+  score = 2
+  label = "Regular"
+  requires = { posts = 6 }

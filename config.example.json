@@ -1,0 +1,60 @@
+{
+  "framework": "frameworks/building-with-ai.toml",
+
+  "sources": [
+    {
+      "type": "command",
+      "signal": "ai_sessions",
+      "run": "ls ~/.claude/projects/*/*.jsonl 2>/dev/null | wc -l"
+    },
+    {
+      "type": "scheduled",
+      "signal": "scheduled_jobs",
+      "match": "agent"
+    },
+    {
+      "type": "filesystem",
+      "signal": "agents_with_state",
+      "roots": ["~/agents"],
+      "glob": "*/state.json"
+    },
+    {
+      "type": "filesystem",
+      "signal": "failure_log",
+      "roots": ["~/.agent-fleet"],
+      "glob": "failures.log"
+    },
+    {
+      "type": "git",
+      "signal": "repos",
+      "roots": ["~/dev"],
+      "days": 90
+    },
+    {
+      "type": "command",
+      "signal": "public_repos",
+      "run": "gh repo list --visibility public --limit 100 --json name -q 'length' 2>/dev/null || echo 0"
+    },
+    {
+      "type": "filesystem",
+      "signal": "eval_files",
+      "roots": ["~/dev"],
+      "glob": "*/evals/*.json"
+    },
+    {
+      "type": "manual",
+      "signal": "external_users",
+      "value": 0
+    },
+    {
+      "type": "manual",
+      "signal": "eval_cases",
+      "value": 0
+    },
+    {
+      "type": "manual",
+      "signal": "eval_runs",
+      "value": 0
+    }
+  ]
+}

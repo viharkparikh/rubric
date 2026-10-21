@@ -1,0 +1,126 @@
+name = "Building with AI"
+description = """
+Four dimensions, four levels each. The premise is that using a model to draft an
+email and running an unattended agent against your own work are not the same
+skill, and most self-assessments collapse them into one number.
+
+Every threshold here is a guess. Change them. A framework that fits your context
+and that you argue with is worth more than a defensible one you inherited.
+"""
+
+# ---------------------------------------------------------------------------
+
+[[dimension]]
+id = "assisted"
+name = "Assisted work"
+weight = 0.5
+
+  [[dimension.level]]
+  score = 0
+  label = "Not yet"
+
+  [[dimension.level]]
+  score = 1
+  label = "Occasional"
+  requires = { ai_sessions = 10 }
+  next = "Use it for a task you would otherwise have avoided, not one you were already good at."
+
+  [[dimension.level]]
+  score = 2
+  label = "Habitual"
+  requires = { ai_sessions = 100 }
+  next = "Notice which tasks you stopped doing by hand. Those are the automation candidates."
+
+  [[dimension.level]]
+  score = 3
+  label = "Default"
+  requires = { ai_sessions = 400 }
+  next = "The ceiling of this dimension is low on purpose. Volume here stops meaning much."
+
+# ---------------------------------------------------------------------------
+
+[[dimension]]
+id = "automation"
+name = "Unattended automation"
+weight = 1.5
+
+  [[dimension.level]]
+  score = 0
+  label = "Nothing runs without me"
+
+  [[dimension.level]]
+  score = 1
+  label = "One scheduled job"
+  requires = { scheduled_jobs = 1 }
+  next = "Give it state. A job with no memory of yesterday is a cron entry, not an agent."
+
+  [[dimension.level]]
+  score = 2
+  label = "A few, with state"
+  requires = { scheduled_jobs = 3, agents_with_state = 1 }
+  next = "Add failure reporting. If it dies quietly you will trust it for four days too long."
+
+  [[dimension.level]]
+  score = 3
+  label = "A fleet you trust"
+  requires = { scheduled_jobs = 5, agents_with_state = 3, failure_log = 1 }
+  next = "Measure output quality, not just exit codes. This is where almost everyone stops."
+
+# ---------------------------------------------------------------------------
+
+[[dimension]]
+id = "building"
+name = "Building things other people can run"
+weight = 1.5
+
+  [[dimension.level]]
+  score = 0
+  label = "Nothing shipped"
+
+  [[dimension.level]]
+  score = 1
+  label = "Local only"
+  requires = { repos = 3 }
+  next = "Publish one. A private repo is indistinguishable from an intention."
+
+  [[dimension.level]]
+  score = 2
+  label = "Published"
+  requires = { public_repos = 1 }
+  next = "Write down what broke. The failure writeup is worth more than the code."
+
+  [[dimension.level]]
+  score = 3
+  label = "Used by someone else"
+  requires = { public_repos = 2, external_users = 1 }
+  next = "Find out what they had to work around, then fix that instead of adding a feature."
+
+# ---------------------------------------------------------------------------
+
+[[dimension]]
+id = "rigour"
+name = "Knowing whether it works"
+weight = 1.0
+
+  [[dimension.level]]
+  score = 0
+  label = "Vibes"
+  next = "Write down, once, what a good output looks like. That sentence is the start of an eval."
+
+  [[dimension.level]]
+  score = 1
+  label = "Spot checks"
+  requires = { eval_files = 1 }
+  next = "Fix the set of cases so runs are comparable over time."
+
+  [[dimension.level]]
+  score = 2
+  label = "A fixed test set"
+  requires = { eval_files = 1, eval_cases = 20 }
+  next = "Track the number across changes. An eval you run once is a screenshot."
+
+  [[dimension.level]]
+  score = 3
+  label = "Measured over time"
+  requires = { eval_files = 2, eval_cases = 50, eval_runs = 10 }
+  next = "You are past what this framework can usefully measure. Write your own."
